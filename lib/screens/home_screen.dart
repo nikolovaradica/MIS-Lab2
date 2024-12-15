@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:joke_app/screens/jokes_screen.dart';
 import 'package:joke_app/screens/random_joke_screen.dart';
 import 'package:joke_app/services/api_service.dart';
+import 'package:joke_app/widgets/custom_app_bar.dart';
+import 'package:joke_app/widgets/joke_type_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,16 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Joke Types", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-        backgroundColor: const Color(0xffaa076b),
+      appBar: CustomAppBar(
+        title: "Joke Types",
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
-                  context, 
+                  context,
                   MaterialPageRoute(
                     builder: (context) => const RandomJokeScreen(),
                   ),
@@ -44,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-
                 backgroundColor: const Color(0xff61045f),
                 elevation: 5,
                 textStyle: const TextStyle(fontSize: 16),
@@ -76,35 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListView.builder(
                 itemCount: types.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    color: Colors.white,
-                    elevation: 10,
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    
-                    child: ListTile(
-                      title: Center(
-                        child: Text(
-                          "${types[index]} jokes".toUpperCase(), 
-                          style: const TextStyle(
-                            fontSize: 16.5, 
-                            fontWeight: FontWeight.w500, 
-                            letterSpacing: 1.5
-                          )
-                        )
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute(
-                            builder: (context) => JokesScreen(type: types[index]),
-                          ),
-                        );
-                      },
-                    ),
-                  );
+                  return JokeTypeCard(jokeType: types[index]);
                 },
               );
             } else {
